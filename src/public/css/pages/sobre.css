@@ -1,0 +1,117 @@
+/* ============================================================
+   SOBRE — Grid de conteúdo, foto, credenciais e valores
+   Usado em: sobre.ejs
+   ============================================================ */
+
+.page-hero {
+  background: var(--preto-suave);
+  padding: 140px 0 60px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.page-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--branco);
+}
+
+.secao-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dourado);
+  margin-bottom: 12px;
+}
+
+.sobre-conteudo { padding: 80px 0 100px; }
+
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.sobre-foto-placeholder {
+  background: var(--preto-card);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--cinza);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sobre-credenciais {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.credencial {
+  background: var(--preto-card);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  padding: 20px;
+  text-align: center;
+}
+.credencial-valor {
+  display: block;
+  font-family: var(--fonte-titulo);
+  font-size: 20px;
+  color: var(--dourado);
+  font-weight: 700;
+}
+.credencial-label {
+  display: block;
+  font-size: 11px;
+  color: var(--cinza);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.sobre-texto h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--branco);
+  margin-bottom: 20px;
+}
+.sobre-texto p {
+  color: var(--cinza);
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.sobre-valores { margin-top: 36px; display: flex; flex-direction: column; gap: 20px; }
+
+.valor-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.valor-icone {
+  font-size: 24px;
+  min-width: 40px;
+}
+.valor-item h4 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--branco);
+  margin-bottom: 4px;
+}
+.valor-item p {
+  font-size: 14px;
+  color: var(--cinza);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .sobre-grid { grid-template-columns: 1fr; }
+}
