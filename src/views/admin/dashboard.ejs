@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="admin-body">
   <aside class="admin-sidebar">
@@ -29,7 +30,86 @@
       <span class="admin-usuario">Olá, <%= userName %></span>
     </div>
 
-    <h2 class="admin-subtitulo" style="margin-top:0">Serviços</h2>
+    <div class="dash-cards">
+      <div class="dash-card">
+        <span class="dash-card-num"><%= processos.length %></span>
+        <span class="dash-card-label">Total de Processos</span>
+      </div>
+      <div class="dash-card">
+        <span class="dash-card-num"><%= processos.filter(p => p.status === 'Em andamento').length %></span>
+        <span class="dash-card-label">Em Andamento</span>
+      </div>
+      <div class="dash-card">
+        <span class="dash-card-num"><%= processos.filter(p => p.status === 'Aguardando audiência').length %></span>
+        <span class="dash-card-label">Aguardando Audiência</span>
+      </div>
+      <div class="dash-card">
+        <span class="dash-card-num"><%= processos.filter(p => p.status === 'Encerrado').length %></span>
+        <span class="dash-card-label">Encerrados</span>
+      </div>
+    </div>
+
+    <div class="dash-graficos">
+      <div class="dash-grafico-card">
+        <p class="dash-grafico-titulo">Processos por Status</p>
+        <canvas id="graficoStatus"></canvas>
+      </div>
+      <div class="dash-grafico-card">
+        <p class="dash-grafico-titulo">Processos por Área</p>
+        <canvas id="graficoArea"></canvas>
+      </div>
+    </div>
+
+    <script>
+      const statusLabels = ['Em andamento', 'Aguardando audiência', 'Em recurso', 'Encerrado'];
+      const statusData = [
+        <%= processos.filter(p => p.status === 'Em andamento').length %>,
+        <%= processos.filter(p => p.status === 'Aguardando audiência').length %>,
+        <%= processos.filter(p => p.status === 'Em recurso').length %>,
+        <%= processos.filter(p => p.status === 'Encerrado').length %>
+      ];
+
+      const todosProcessos = <%- JSON.stringify(processos) %>;
+      const todasAreas = [...new Set(todosProcessos.map(p => p.area))];
+      const areaData = todasAreas.map(area => todosProcessos.filter(p => p.area === area).length);
+
+      const cores = ['#C9A84C', '#7ec8a0', '#e09070', '#888888'];
+
+      new Chart(document.getElementById('graficoStatus'), {
+        type: 'doughnut',
+        data: {
+          labels: statusLabels,
+          datasets: [{ data: statusData, backgroundColor: cores, borderWidth: 0 }]
+        },
+        options: {
+          plugins: {
+            legend: { labels: { color: '#e8e0d0', font: { size: 12 } } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('graficoArea'), {
+        type: 'bar',
+        data: {
+          labels: todasAreas.length ? todasAreas : ['Sem dados'],
+          datasets: [{
+            label: 'Processos',
+            data: areaData.length ? areaData : [0],
+            backgroundColor: '#C9A84C',
+            borderRadius: 4
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { ticks: { color: '#888', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+          }
+        }
+      });
+    </script>
+
+    <h2 class="admin-subtitulo">Serviços</h2>
 
     <div class="admin-acoes">
       <a href="/admin/servicos/novo" class="btn btn-primario">+ Novo Serviço</a>
